@@ -1,0 +1,22 @@
+{
+  "name": "castlabs",
+  "version": "1.0.0",
+  "description": "Experiemnts with the castLabs SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fingerartur/castlabs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fingerartur/castlabs/issues"
+  },
+  "homepage": "https://github.com/fingerartur/castlabs#readme",
+  "dependencies": {
+    "@castlabs/prestoplay": "^6.18.0"
+  }
+}
