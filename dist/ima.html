@@ -1,0 +1,133 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="sdk/clpp.styles.css">
+    <script type="text/javascript" src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <!-- <script type="text/javascript" src="third_party/ima.js"></script> -->
+    <script src="sdk/cjs/cl.core.js"></script>
+    <script src="sdk/cjs/cl.mse.js"></script>
+    <script src="sdk/cjs/cl.dash.js"></script>
+    <script src="sdk/cjs/cl.ima.js"></script>
+
+    <style>
+      .hidden {
+        display: none;
+      }
+
+      #ad_banner {
+        height: 20px;
+        color: white;
+        background-color: red;
+        width: 400px;
+        border-radius: 5px;
+        margin: 5px;
+      }
+
+      .buttons {
+        margin: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Locally hosted IMA SDK</h1>
+    <video id="video" width="640" height="360" crossorigin="anonymous" controls=""></video>
+    <div class="buttons">
+      <button id="play" autofocus>Play</button>
+      <button id="destroy">Destroy</button>
+      <button id="reload">Reload</button>
+    </div>
+    <div id="ad_banner" class="hidden">ADVERTISEMENT</div>
+  </body>
+
+  <script>
+    clpp.install(clpp.dash.DashComponent);
+
+    const player = new clpp.Player('video', {
+      ima: {
+        // postroll
+        adTagUrl: 'https://players.castlabs.com/ads/vmap?ad=1,end'
+      }
+    });
+
+    const adBannerEl = document.getElementById('ad_banner');
+
+    player.on('error', event => {
+      console.log('==> error', event.detail.data.errorType);
+    });
+    player.on('play', () => {
+      console.log('==> play');
+    });
+    player.on('ended', () => {
+      console.log('==> ended');
+    });
+    player.on('playing', () => {
+      console.log('==> playing');
+    });
+    player.on(clpp.events.ADS_TIMELINE_CHANGED, event => {
+      console.log('==> ad-timeline-changed', event.adsTimeline.getCuePoints());
+    });
+    player.on(clpp.events.AD_LOADED, event => {
+      console.log('==> ad-loaded', event.ad);
+    });
+    player.on(clpp.events.AD_BREAK_STARTED, event => {
+      console.log('==> ad-break-started');
+      adBannerEl.classList.remove('hidden');
+    });
+    player.on(clpp.events.AD_STARTED, event => {
+      console.log('==> ad-started', event.ad);
+      adBannerEl.classList.remove('hidden');
+    });
+    player.on(clpp.events.AD_BUFFERING, event => {
+      console.log('==> ad-buffering', event.ad);
+    });
+    player.on(clpp.events.AD_FIRST_QUARTILE, event => {
+      console.log('==> ad-first-quartile', event.ad);
+    });
+    player.on(clpp.events.AD_MIDPOINT, event => {
+      console.log('==> ad-midpoint', event.ad);
+    });
+    player.on(clpp.events.AD_THIRD_QUARTILE, event => {
+      console.log('==> ad-third-quartile', event.ad);
+    });
+    player.on(clpp.events.AD_SKIPPED, event => {
+      console.log('==> ad-skipped', event.ad);
+    });
+    player.on(clpp.events.AD_CLICKED, event => {
+      console.log('==> ad-clicked', event.ad);
+    });
+    player.on(clpp.events.AD_IMPRESSION, event => {
+      console.log('==> ad-impression', event.ad);
+    });
+    player.on(clpp.events.AD_COMPLETED, event => {
+      console.log('==> ad-complete', event.ad);
+      adBannerEl.classList.add('hidden');
+    });
+    player.on(clpp.events.AD_STOPPED, event => {
+      console.log('==> ad-stopped', event.ad);
+      adBannerEl.classList.add('hidden');
+    });
+    player.on(clpp.events.AD_BREAK_STOPPED, event => {
+      console.log('==> ad-break-stopped', event.ad);
+      adBannerEl.classList.add('hidden');
+    });
+
+    function load() {
+      player.load({
+        source: '//demo.cf.castlabs.com/media/prestodash/Manifest.mpd'
+      });
+    }
+
+    document.getElementById('play').addEventListener('click', function () {
+      player.play();
+    });
+    document.getElementById('reload').addEventListener('click', function () {
+      load();
+    });
+    document.getElementById('destroy').addEventListener('click', function () {
+      player.destroy();
+    });
+
+    load();
+  </script>
+</html>
