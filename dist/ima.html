@@ -2,12 +2,12 @@
   <head>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="sdk/clpp.styles.css">
-    <script type="text/javascript" src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <!-- <script type="text/javascript" src="third_party/ima.js"></script> -->
+    <script src="license.js"></script>
     <script src="sdk/cjs/cl.core.js"></script>
     <script src="sdk/cjs/cl.mse.js"></script>
     <script src="sdk/cjs/cl.dash.js"></script>
     <script src="sdk/cjs/cl.ima.js"></script>
+    <script type="text/javascript" src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 
     <style>
       .hidden {
@@ -44,6 +44,8 @@
     clpp.install(clpp.dash.DashComponent);
 
     const player = new clpp.Player('video', {
+      license,
+      viewerId: 'user1',
       ima: {
         // postroll
         adTagUrl: 'https://players.castlabs.com/ads/vmap?ad=1,end'
